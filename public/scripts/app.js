@@ -115,7 +115,8 @@ var Options = function (_React$Component4) {
     _createClass(Options, [{
         key: 'handleRemoveAll',
         value: function handleRemoveAll() {
-            alert('removing all options');
+            // alert('removing all options');
+            console.log(this.props.options); //<--where is the 'this' binding
         }
     }, {
         key: 'render',
