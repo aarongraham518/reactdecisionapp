@@ -6,7 +6,7 @@ class IndecisionApp extends React.Component {
         this.handleAddOption = this.handleAddOption.bind(this);
 
         this.state = {
-            options: ['thing one', 'thing two', 'thing three']
+            options: []
         };
     }
 
@@ -21,7 +21,17 @@ class IndecisionApp extends React.Component {
 
     //will handle the value sent in from the component, up to the parent state
     handleAddOption(option){
-        console.log(option);
+        if(!option){
+            return 'Enter valid value to add item'
+        }else if(this.state.options.indexOf(option) > -1){
+            return 'This option already exists';
+        }
+
+        this.setState((prevState) => {
+            return {
+                options: prevState.options.concat(option)
+            };
+        });
     }
 
     //handlePick - pass down to Action and setup onClick - bind here
@@ -106,20 +116,32 @@ class AddOption extends React.Component {
     constructor(props){
         super(props);
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.state = {
+            error: undefined
+        };
     }
     handleAddOption(e){
         e.preventDefault();
 
         let inputValue = e.target.elements.option.value.trim();
+
+        //send inputValue up to the parent via this method
+        const error = this.props.handleAddOption(inputValue);
+
+        this.setState(() =>{
+            return {
+                error: error
+            };
+        });
         if(inputValue){
-            //send inputValue up to the parent via this method
-            this.props.handleAddOption(inputValue);
+            
         }
     }
     
     render(){
         return(
             <div>
+            {this.state.error && <p>{this.state.error}</p>}
             <form onSubmit={this.handleAddOption}>
                 <input type="text" name="option" />
                 <button>Add Option</button>
