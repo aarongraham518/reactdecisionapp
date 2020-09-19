@@ -18,6 +18,8 @@ var IndecisionApp = function (_React$Component) {
 
         _this.handleDeleteOptions = _this.handleDeleteOptions.bind(_this);
         _this.handlePick = _this.handlePick.bind(_this);
+        _this.handleAddOption = _this.handleAddOption.bind(_this);
+
         _this.state = {
             options: ['thing one', 'thing two', 'thing three']
         };
@@ -35,6 +37,14 @@ var IndecisionApp = function (_React$Component) {
                     options: []
                 };
             });
+        }
+
+        //will handle the value sent in from the component, up to the parent state
+
+    }, {
+        key: 'handleAddOption',
+        value: function handleAddOption(option) {
+            console.log(option);
         }
 
         //handlePick - pass down to Action and setup onClick - bind here
@@ -64,7 +74,9 @@ var IndecisionApp = function (_React$Component) {
                     options: this.state.options,
                     handleDeleteOptions: this.handleDeleteOptions
                 }),
-                React.createElement(AddOption, null)
+                React.createElement(AddOption, {
+                    handleAddOption: this.handleAddOption
+                })
             );
         }
     }]);
@@ -191,10 +203,13 @@ var Option = function (_React$Component5) {
 var AddOption = function (_React$Component6) {
     _inherits(AddOption, _React$Component6);
 
-    function AddOption() {
+    function AddOption(props) {
         _classCallCheck(this, AddOption);
 
-        return _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).apply(this, arguments));
+        var _this6 = _possibleConstructorReturn(this, (AddOption.__proto__ || Object.getPrototypeOf(AddOption)).call(this, props));
+
+        _this6.handleAddOption = _this6.handleAddOption.bind(_this6);
+        return _this6;
     }
 
     _createClass(AddOption, [{
@@ -204,7 +219,8 @@ var AddOption = function (_React$Component6) {
 
             var inputValue = e.target.elements.option.value.trim();
             if (inputValue) {
-                alert(inputValue);
+                //send inputValue up to the parent via this method
+                this.props.handleAddOption(inputValue);
             }
         }
     }, {

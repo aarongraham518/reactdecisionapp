@@ -3,6 +3,8 @@ class IndecisionApp extends React.Component {
         super(props);
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handlePick = this.handlePick.bind(this);
+        this.handleAddOption = this.handleAddOption.bind(this);
+
         this.state = {
             options: ['thing one', 'thing two', 'thing three']
         };
@@ -15,6 +17,11 @@ class IndecisionApp extends React.Component {
                 options: []
             };
         });
+    }
+
+    //will handle the value sent in from the component, up to the parent state
+    handleAddOption(option){
+        console.log(option);
     }
 
     //handlePick - pass down to Action and setup onClick - bind here
@@ -38,7 +45,9 @@ class IndecisionApp extends React.Component {
                     options={this.state.options}
                     handleDeleteOptions={this.handleDeleteOptions}
                 />
-                <AddOption />
+                <AddOption 
+                    handleAddOption={this.handleAddOption}
+                />
             </div>
         );
     }
@@ -94,12 +103,17 @@ class Option extends React.Component {
 }
 
 class AddOption extends React.Component {
+    constructor(props){
+        super(props);
+        this.handleAddOption = this.handleAddOption.bind(this);
+    }
     handleAddOption(e){
         e.preventDefault();
 
         let inputValue = e.target.elements.option.value.trim();
         if(inputValue){
-            alert(inputValue);
+            //send inputValue up to the parent via this method
+            this.props.handleAddOption(inputValue);
         }
     }
     
