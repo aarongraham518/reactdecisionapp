@@ -6,6 +6,7 @@ class IndecisionApp extends React.Component {
         this.handleDeleteOptions = this.handleDeleteOptions.bind(this);
         this.handlePick = this.handlePick.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
+        this.handleDeleteOption = this.handleDeleteOption.bind(this);        
 
         this.state = {
             options: []
@@ -14,11 +15,21 @@ class IndecisionApp extends React.Component {
 
     /* a method that is passed to a child component 'Options'*/
     handleDeleteOptions(){
-        this.setState(() =>{
-            return {
-                options: []
-            };
-        });
+        this.setState(() => ({ options: []}));
+        //refactored aboved :)
+        // this.setState(() =>{
+        //     return {
+        //         options: []
+        //     };
+        // });
+    }
+
+    handleDeleteOption(optionToRemove){
+        this.setState((prevState) => ({
+            //Function is a predicate, to test each element of the array.
+            //Return true to keep the element, false otherwise.
+            options: prevState.options.filter((option) => optionToRemove !== option)
+        }));
     }
 
     //will handle the value sent in from the component, up to the parent state
@@ -29,11 +40,7 @@ class IndecisionApp extends React.Component {
             return 'This option already exists';
         }
 
-        this.setState((prevState) => {
-            return {
-                options: prevState.options.concat(option)
-            };
-        });
+        this.setState((prevState) => ({options: prevState.options.concat(option)}));
     }
 
     //handlePick - pass down to Action and setup onClick - bind here
@@ -55,6 +62,7 @@ class IndecisionApp extends React.Component {
                 <Options 
                     options={this.state.options}
                     handleDeleteOptions={this.handleDeleteOptions}
+                    handleDeleteOption={this.handleDeleteOption}
                 />
                 <AddOption 
                     handleAddOption={this.handleAddOption}
@@ -99,8 +107,13 @@ const Options = (props) => {
         <div>
             <button onClick={props.handleDeleteOptions}>Remove All</button>
             {
-                props.options.map((option) =>
-                    <Option key={option} optionText={option}/>)
+                props.options.map((option) => (
+                    <Option 
+                        key={option} 
+                        optionText={option}
+                        handleDeleteOption={props.handleDeleteOption}
+                    />
+                ))
             } 
         </div>
     );
@@ -110,6 +123,12 @@ const Option = props => {
     return (
         <div>            
                 {props.optionText}
+                <button 
+                    onClick={(e) => {
+                        props.handleDeleteOption(props.optionText)
+                    }}
+                >
+                    remove</button>
         </div>
     );
 };
@@ -130,11 +149,7 @@ class AddOption extends React.Component {
         //send inputValue up to the parent via this method
         const error = this.props.handleAddOption(inputValue);
 
-        this.setState(() =>{
-            return {
-                error: error
-            };
-        });
+        this.setState(() => ({error: error}));
         if(inputValue){
             
         }
