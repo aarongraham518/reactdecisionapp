@@ -127,6 +127,7 @@ var Header = function Header(props) {
   return React.createElement(
     'div',
     null,
+    'test text',
     React.createElement(
       'h1',
       null,
