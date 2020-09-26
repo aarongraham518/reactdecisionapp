@@ -3,10 +3,12 @@ import AddOption from './AddOption';
 import Action from './Action';
 import Header from './Header';
 import Options from './Options';
+import OptionModal from './OptionModal';
 
 export default class IndecisionApp extends React.Component {
   state = {
-    options: []
+    options: [],
+    selectedOption: undefined
   };
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
@@ -19,7 +21,11 @@ export default class IndecisionApp extends React.Component {
   handlePick = () => {
     const randomNum = Math.floor(Math.random() * this.state.options.length);
     const option = this.state.options[randomNum];
-    alert(option);
+    // alert(option);
+    //note! a string is returned as the option
+    this.setState(() => ({
+      selectedOption: option
+    }));
   };
   handleAddOption = (option) => {
     if (!option) {
@@ -53,6 +59,10 @@ export default class IndecisionApp extends React.Component {
   componentWillUnmount() {
     console.log('componentWillUnmount');
   }
+
+  handleClearSelectedOption = () => {
+    this.setState(() => ({selectedOption: undefined}));
+  }
   render() {
     const subtitle = 'Put your life in the hands of a computer';
 
@@ -70,6 +80,13 @@ export default class IndecisionApp extends React.Component {
         />
         <AddOption
           handleAddOption={this.handleAddOption}
+        />
+        {//note: handleClearSelectedOption is now a prop for this cp
+         //and can use it
+        }
+        <OptionModal
+          selectedOption={this.state.selectedOption}
+          handleClearSelectedOption={this.handleClearSelectedOption}          
         />
       </div>
     );
