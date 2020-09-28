@@ -90,10 +90,14 @@ export default class IndecisionApp extends React.Component {
     return (
       <div>
         <Header subtitle={subtitle} />
+
+        <div className="container">
         <Action
           hasOptions={this.state.options.length > 0}
           handlePick={this.handlePick}
         />
+
+        <div className="widget">
         <Options
           options={this.state.options}
           handleDeleteOptions={this.handleDeleteOptions}
@@ -103,9 +107,13 @@ export default class IndecisionApp extends React.Component {
           handleAddOption={this.handleAddOption}
           testSingleValue={this.state.testSingleValue}
         />
+        </div>
+        
         {//note: handleClearSelectedOption is now a prop for this cp
          //and can use it
         }
+        </div>
+        
         <OptionModal
           selectedOption={this.state.selectedOption}
           handleClearSelectedOption={this.handleClearSelectedOption}   
