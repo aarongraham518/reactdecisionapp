@@ -8,8 +8,27 @@ import OptionModal from './OptionModal';
 export default class IndecisionApp extends React.Component {
   state = {
     options: [],
-    selectedOption: undefined
+    selectedOption: undefined,
+    testArrayState: [1,2,3],
+    testSingleValue: 1
   };
+
+  // handleTestArrayState = () => {
+  //   this.setState((prevState) => ({
+  //     testArrayState: prevState.testArrayState.concat(2)
+  //   }));
+  // }
+
+  handleSingleValue(){
+    console.log('testing single value');
+  }
+
+  handleTestSingleValue(){
+    this.setState((prevState) => ({
+      testSingleValue: prevState.testSingleValue + 1
+    }));
+  }
+
   handleDeleteOptions = () => {
     this.setState(() => ({ options: [] }));
   };
@@ -28,6 +47,7 @@ export default class IndecisionApp extends React.Component {
     }));
   };
   handleAddOption = (option) => {
+    
     if (!option) {
       return 'Enter valid value to add item';
     } else if (this.state.options.indexOf(option) > -1) {
@@ -63,6 +83,7 @@ export default class IndecisionApp extends React.Component {
   handleClearSelectedOption = () => {
     this.setState(() => ({selectedOption: undefined}));
   }
+
   render() {
     const subtitle = 'Put your life in the hands of a computer';
 
@@ -80,13 +101,17 @@ export default class IndecisionApp extends React.Component {
         />
         <AddOption
           handleAddOption={this.handleAddOption}
+          testSingleValue={this.state.testSingleValue}
         />
         {//note: handleClearSelectedOption is now a prop for this cp
          //and can use it
         }
         <OptionModal
           selectedOption={this.state.selectedOption}
-          handleClearSelectedOption={this.handleClearSelectedOption}          
+          handleClearSelectedOption={this.handleClearSelectedOption}   
+          // testArrayState={this.state.testSingleValue}
+          testSingleValue={this.state.testSingleValue}      
+          // testArrayState={this.state.testArrayState} 
         />
       </div>
     );

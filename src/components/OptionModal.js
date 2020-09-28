@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 
 const OptionModal = (props) => (
+
     <div>
         <Modal //{note: !!'string' is true !!undefined is false}
             isOpen={!!props.selectedOption}
@@ -12,7 +13,8 @@ const OptionModal = (props) => (
             {props.selectedOption && <p>{props.selectedOption}</p>}
             {//props.handleClearSelectedOption will fire upstream
             }
-            <button onClick={props.handleClearSelectedOption}>Okay</button>
+            <button onClick={props.handleClearSelectedOption}>Okay</button>            
+        
         </Modal>
     </div>
 );
